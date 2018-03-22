@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.demo.angularpractice.repository.RoleResourceMapper">
+    <resultMap id="BaseResultMap" type="com.demo.angularpractice.entity.RoleResource">
+        <result column="role_id" property="roleId" jdbcType="INTEGER"/>
+        <result column="resource_id" property="resourceId" jdbcType="INTEGER"/>
+    </resultMap>
+    <insert id="insert" parameterType="com.demo.angularpractice.entity.RoleResource">
+        INSERT INTO role_resource (role_id, resource_id)
+        VALUES (#{roleId,jdbcType=INTEGER}, #{resourceId,jdbcType=INTEGER})
+    </insert>
+    <select id="selectAll" resultMap="BaseResultMap">
+        SELECT
+            role_id,
+            resource_id
+        FROM role_resource
+    </select>
+</mapper>
