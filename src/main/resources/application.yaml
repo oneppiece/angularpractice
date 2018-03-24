@@ -72,6 +72,15 @@ spring:
           db-type: mysql
       max-active: 10
       aop-patterns: com.demo.*
+  thymeleaf:
+    cache: false
+    prefix: classpath:/templates/
+    mode: LEGACYHTML5
+    suffix: .html
+    encoding: UTF-8
+    servlet:
+      content-type: text/html
+    enabled: true
 
 mybatis:
   mapper-locations: classpath*:mapper/*.xml
@@ -90,6 +99,10 @@ mybatis:
 #    interceptors: com.github.pagehelper.PageHelper
   configuration-properties:
     logImpl: SLF4J
+#debug: true
+#logging:
+#  level:
+#    root: debug
 
 # 数据库连接池
 

@@ -1,28 +1,186 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.demo.angularpractice.repository.UserMapper">
-    <resultMap id="BaseResultMap" type="com.demo.angularpractice.entity.User">
+    <resultMap id="BaseResultMap" type="com.demo.angularpractice.account.SysUserParam">
         <id column="id" jdbcType="INTEGER" property="id"/>
         <result column="name" jdbcType="VARCHAR" property="name"/>
         <result column="username" jdbcType="VARCHAR" property="username"/>
         <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="roleName" jdbcType="VARCHAR" property="roleName"/>
+        <result column="accountNonExpired" jdbcType="BOOLEAN" property="accountNonExpired"/>
+        <result column="accountNonLocked" jdbcType="BOOLEAN" property="accountNonLocked"/>
+        <result column="credentialsNonExpired" jdbcType="BOOLEAN" property="credentialsNonExpired"/>
+        <result column="enabled" jdbcType="BOOLEAN" property="enabled"/>
     </resultMap>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
         DELETE FROM users
         WHERE id = #{id,jdbcType=INTEGER}
     </delete>
-    <insert id="insert" parameterType="com.demo.angularpractice.entity.User">
-        INSERT INTO users (id, name, username,
-                           password)
-        VALUES (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR},
-                #{password,jdbcType=VARCHAR})
+    <delete id="deleteUserRole">
+        DELETE FROM user_role
+        WHERE user_id = #{userId} AND roleId = #{roleId}
+    </delete>
+    <delete id="deleteRoleResource">
+        DELETE FROM role_resource
+        WHERE role_id = #{roleId}
+    </delete>
+    <insert id="insertUser">
+        INSERT INTO users
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="record.id != null">
+                record.id,
+            </if>
+            <if test="record.name != null">
+                record.name,
+            </if>
+            <if test="record.username != null">
+                record.username,
+            </if>
+            <if test="record.password != null">
+                record.password,
+            </if>
+            <if test="record.roleName != null">
+                record.roleName,
+            </if>
+            <if test="record.accountNonExpired != null">
+                record.accountNonExpired,
+            </if>
+            <if test="record.accountNonLocked != null">
+                record.accountNonLocked,
+            </if>
+            <if test="record.credentialsNonExpired != null">
+                record.credentialsNonExpired,
+            </if>
+            <if test="record.enabled != null">
+                record.enabled
+            </if>
+        </trim>
+
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="name != null">
+                #{name},
+            </if>
+            <if test="username != null">
+                #{username},
+            </if>
+            <if test="password != null">
+                #{password},
+            </if>
+            <if test="roleName != null">
+                #{roleName},
+            </if>
+            <if test="accountNonExpired != null">
+                #{accountNonExpired},
+            </if>
+            <if test="accountNonLocked != null">
+                #{accountNonLocked},
+            </if>
+            <if test="credentialsNonExpired != null">
+                #{credentialsNonExpired},
+            </if>
+            <if test="enabled != null">
+                #{enabled},
+            </if>
+        </trim>
     </insert>
-    <update id="updateByPrimaryKey" parameterType="com.demo.angularpractice.entity.User">
+    <insert id="insertRole">
+        INSERT INTO roles
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="role.userId != null">
+                role.user_id,
+            </if>
+            <if test="role.roleId != null">
+                role.role_id
+            </if>
+        </trim>
+
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="role.userId != null">
+                #{role.userId},
+            </if>
+            <if test="role.roleId != null">
+                #{role.roleId}
+            </if>
+        </trim>
+    </insert>
+    <insert id="insertResource">
+        INSERT INTO resources
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="resource.id != null">
+                resource.id,
+            </if>
+            <if test="resource.name != null">
+                resource.name
+            </if>
+        </trim>
+
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="resource.id != null">
+                #{resource.id},
+            </if>
+            <if test="resource.name != null">
+                #{resource.name}
+            </if>
+        </trim>
+    </insert>
+
+
+    <update id="updateByPrimaryKey">
         UPDATE users
-        SET name     = #{name,jdbcType=VARCHAR},
-            username = #{username,jdbcType=VARCHAR},
-            password = #{password,jdbcType=VARCHAR}
+        <set>
+            <if test="userParam.name != null">
+                name =#{userParam.name},
+            </if>
+            <if test="userParam.username != null">
+                username=#{userParam.username},
+            </if>
+            <if test="userParam.password != null">
+                password=#{userParam.password},
+            </if>
+            <if test="userParam.roleName != null">
+                roleName = #{userParam.roleName},
+            </if>
+            <if test="userParam.accountNonExpired != null">
+                accountNonExpired = #{userParam.accountNonExpired},
+            </if>
+            <if test="userParam.accountNonLocked != null">
+                accountNonLocked = #{userParam.accountNonLocked},
+            </if>
+            <if test="userParam.credentialsNonExpired != null">
+                credentialsNonExpired = #{userParam.credentialsNonExpired},
+            </if>
+            <if test="userParam.enabled != null">
+                enabled = #{userParam.enabled}
+            </if>
+        </set>
         WHERE id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateUserRole">
+        UPDATE user_role
+        <set>
+            <if test="userId !=null">
+                user_id = #{userId}
+            </if>
+            <if test="roleId != null">
+                role_id = #{roleId}
+            </if>
+        </set>
+        where user_id = #{userId}
+    </update>
+    <update id="updateRoleResource">
+        UPDATE role_resource
+        <set>
+            <if test="roleId!= null">
+                role_resource.role_id = #{roleId}
+            </if>
+            <if test="resourceId != null">
+                role_resource.resource_id = #{resourceId}
+            </if>
+        </set>
+        where role_id = #{roleId}
     </update>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         SELECT
@@ -40,5 +198,67 @@
             username,
             password
         FROM users
+    </select>
+    <select id="selectByUser" resultMap="BaseResultMap">
+        SELECT
+        id,
+        name,
+        username,
+        password,
+        roleName,
+        accountNonExpired,
+        accountNonLocked,
+        credentialsNonExpired,
+        enabled
+        FROM users
+        <where>
+            <if test="userParam != null">
+                users.username = #{userParam.username}
+            </if>
+            <if test="userParam != null">
+                users.id = #{userParam.id}
+            </if>
+        </where>
+    </select>
+    <select id="selectResourcesByUser" resultType="java.lang.String">
+        SELECT r.name
+        FROM
+            angular.users u LEFT JOIN angular.user_role ur ON u.id = ur.user_id
+            LEFT JOIN angular.role_resource rr ON ur.role_id = rr.role_id
+            LEFT JOIN angular.resources r ON rr.resource_id = r.id
+        WHERE u.id = #{userParam.id}
+    </select>
+    <select id="selectUserRoles" resultType="java.lang.String">
+        SELECT r.name
+        FROM users u LEFT JOIN user_role ur ON u.id = ur.user_id
+            LEFT JOIN roles r ON ur.role_id = r.id
+        WHERE u.id = #{userId}
+    </select>
+    <select id="selectRoleResource" resultType="java.lang.String">
+        SELECT re.name
+        FROM roles r LEFT JOIN role_resource rr ON r.id = rr.resource_id
+            LEFT JOIN resources re ON rr.role_id = re.id
+        WHERE r.id = #{roleId}
+    </select>
+    <select id="selectUserResource" resultType="java.lang.String">
+        SELECT r.name
+        FROM users u LEFT JOIN user_role ur ON u.id = ur.user_id
+            LEFT JOIN role_resource rr ON ur.role_id = rr.role_id
+            LEFT JOIN resources r ON rr.resource_id = r.id
+        WHERE u.id = #{userId}
+    </select>
+    <select id="selectByUserName" resultType="com.demo.angularpractice.account.SysUserParam">
+        SELECT
+            id,
+            name,
+            username,
+            password,
+            roleName,
+            accountNonExpired,
+            accountNonLocked,
+            credentialsNonExpired,
+            enabled
+        FROM users
+        WHERE users.username = #{userParam.username}
     </select>
 </mapper>

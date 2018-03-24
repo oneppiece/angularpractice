@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.demo.angularpractice.repository.PersistentLoginMapper">
+    <resultMap id="BaseResultMap" type="com.demo.angularpractice.entity.PersistentLogin">
+        <id column="series" property="series" jdbcType="VARCHAR"/>
+        <result column="username" property="username" jdbcType="VARCHAR"/>
+        <result column="token" property="token" jdbcType="VARCHAR"/>
+        <result column="last_used" property="lastUsed" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        DELETE FROM persistant_login
+        WHERE series = #{series,jdbcType=VARCHAR}
+    </delete>
+    <insert id="insert" parameterType="com.demo.angularpractice.entity.PersistentLogin">
+        INSERT INTO persistant_login (series, username, token,
+                                      last_used)
+        VALUES (#{series,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, #{token,jdbcType=VARCHAR},
+                #{lastUsed,jdbcType=TIMESTAMP})
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="com.demo.angularpractice.entity.PersistentLogin">
+        UPDATE persistant_login
+        SET username  = #{username,jdbcType=VARCHAR},
+            token     = #{token,jdbcType=VARCHAR},
+            last_used = #{lastUsed,jdbcType=TIMESTAMP}
+        WHERE series = #{series,jdbcType=VARCHAR}
+    </update>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+        SELECT
+            series,
+            username,
+            token,
+            last_used
+        FROM persistant_login
+        WHERE series = #{series,jdbcType=VARCHAR}
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+        SELECT
+            series,
+            username,
+            token,
+            last_used
+        FROM persistant_login
+    </select>
+</mapper>
