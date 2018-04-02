@@ -126,8 +126,6 @@
             </if>
         </trim>
     </insert>
-
-
     <update id="updateByPrimaryKey">
         UPDATE users
         <set>
@@ -212,10 +210,10 @@
         enabled
         FROM users
         <where>
-            <if test="userParam != null">
+            <if test="userParam.username != null">
                 users.username = #{userParam.username}
             </if>
-            <if test="userParam != null">
+            <if test="userParam.id != null">
                 users.id = #{userParam.id}
             </if>
         </where>
@@ -260,5 +258,15 @@
             enabled
         FROM users
         WHERE users.username = #{userParam.username}
+    </select>
+    <select id="selectResourcesByUserId" resultType="com.demo.angularpractice.entity.Resource">
+        SELECT r.*
+        FROM users u LEFT JOIN user_role ur ON u.id = ur.user_id
+            LEFT JOIN role_resource rr ON ur.role_id = rr.role_id
+            LEFT JOIN resources r ON rr.resource_id = r.id
+        WHERE u.id = #{userId}
+    </select>
+    <select id="selectAllResource" resultType="com.demo.angularpractice.entity.Resource">
+        select * from resources
     </select>
 </mapper>

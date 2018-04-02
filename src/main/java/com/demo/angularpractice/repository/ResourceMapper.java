@@ -1,6 +1,7 @@
 package com.demo.angularpractice.repository;
 
 import com.demo.angularpractice.entity.Resource;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -12,6 +13,8 @@ public interface ResourceMapper {
     Resource selectByPrimaryKey(Integer id);
 
     List<Resource> selectAll();
+
+    List<Resource> selectResourceByUserId(@Param("userId") Integer userId);
 
     int updateByPrimaryKey(Resource record);
 }

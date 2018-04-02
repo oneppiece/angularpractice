@@ -4,31 +4,49 @@
     <resultMap id="BaseResultMap" type="com.demo.angularpractice.entity.Resource">
         <id column="id" property="id" jdbcType="INTEGER"/>
         <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="url" property="url" jdbcType="VARCHAR"/>
+        <result column="description" property="description" jdbcType="VARCHAR"/>
+        <result column="id" property="id" jdbcType="INTEGER"/>
+        <result column="pid" property="pid" jdbcType="INTEGER"/>
     </resultMap>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
         DELETE FROM resources
         WHERE id = #{id,jdbcType=INTEGER}
     </delete>
     <insert id="insert" parameterType="com.demo.angularpractice.entity.Resource">
-        INSERT INTO resources (id, name)
-        VALUES (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR})
+        INSERT INTO resources (id, name, url, description, pid)
+        VALUES (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}
+            , #{description,jdbcType=VARCHAR}, #{pid,jdbcType=INTEGER})
     </insert>
     <update id="updateByPrimaryKey" parameterType="com.demo.angularpractice.entity.Resource">
         UPDATE resources
-        SET name = #{name,jdbcType=VARCHAR}
+        SET
+            name        = #{name,jdbcType=VARCHAR},
+            url         = #{url,jdbcType=VARCHAR},
+            description = #{description,jdbcType=VARCHAR},
+            pid         = #{pid,jdbcType=INTEGER}
         WHERE id = #{id,jdbcType=INTEGER}
     </update>
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         SELECT
             id,
-            name
+            name,
+            url,
+            description,
+            pid
         FROM resources
         WHERE id = #{id,jdbcType=INTEGER}
     </select>
     <select id="selectAll" resultMap="BaseResultMap">
         SELECT
             id,
-            name
+            name,
+            url,
+            description,
+            pid
         FROM resources
+    </select>
+    <select id="selectResourceByUserId" resultType="com.demo.angularpractice.entity.Resource">
+
     </select>
 </mapper>

@@ -14,10 +14,10 @@ INSERT INTO roles (roles.id, roles.name) VALUES (1, 'ROLE_ADMIN');
 INSERT INTO roles (roles.id, roles.name) VALUES (2, 'ROLE_USER');
 INSERT INTO roles (roles.id, roles.name) VALUES (3, 'ROLE_GUEST');
 
-INSERT INTO resources (resources.id, resources.name) VALUES (1, '菜单一');
-INSERT INTO resources (resources.id, resources.name) VALUES (2, '菜单二');
-INSERT INTO resources (resources.id, resources.name) VALUES (3, '菜单三');
-INSERT INTO resources (resources.id, resources.name) VALUES (4, '菜单四');
+INSERT INTO resources (resources.id, resources.name, resources.url, resources.pid) VALUES (1, '菜单一', '/menu1', 0);
+INSERT INTO resources (resources.id, resources.name, resources.url, resources.pid) VALUES (2, '菜单二', '/menu2', 0);
+INSERT INTO resources (resources.id, resources.name, resources.url, resources.pid) VALUES (3, '菜单三', '/menu3', 0);
+INSERT INTO resources (resources.id, resources.name, resources.url, resources.pid) VALUES (4, '菜单四', '/menu4', 0);
 
 INSERT INTO user_role (user_role.user_id, user_role.role_id) VALUES (1, 1);
 INSERT INTO user_role (user_role.user_id, user_role.role_id) VALUES (1, 2);

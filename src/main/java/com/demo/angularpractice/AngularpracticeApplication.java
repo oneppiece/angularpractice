@@ -5,7 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-@MapperScan("com.demo.angularpractice.repository")
+@MapperScan({"com.demo.angularpractice.repository", "com.demo.angularpractice.account"})
 public class AngularpracticeApplication {
 
     public static void main(String[] args) {

@@ -8,13 +8,13 @@
 # #
 # # #
 # USE angular;
-# TRUNCATE TABLE users;
-# TRUNCATE TABLE roles;
-# TRUNCATE TABLE resources;
-#
-# TRUNCATE TABLE role_resource;
-# TRUNCATE TABLE user_role;
-# TRUNCATE TABLE persistant_login;
+TRUNCATE TABLE users;
+TRUNCATE TABLE roles;
+TRUNCATE TABLE resources;
+
+TRUNCATE TABLE role_resource;
+TRUNCATE TABLE user_role;
+TRUNCATE TABLE persistant_login;
 
 CREATE DATABASE IF NOT EXISTS angular;
 USE angular;
@@ -46,8 +46,11 @@ CREATE TABLE IF NOT EXISTS roles (
   AUTO_INCREMENT = 2;
 
 CREATE TABLE IF NOT EXISTS resources (
-  id   INT AUTO_INCREMENT NOT NULL,
-  name VARCHAR(20) DEFAULT '未设置',
+  id          INT AUTO_INCREMENT NOT NULL,
+  name        VARCHAR(20) DEFAULT '未设置',
+  description VARCHAR(20) DEFAULT '描述',
+  url         VARCHAR(20) DEFAULT '描述',
+  pid         INT,
   PRIMARY KEY (id)
 )
   ENGINE = InnoDB
@@ -66,8 +69,7 @@ CREATE TABLE IF NOT EXISTS user_role (
     ON UPDATE CASCADE
 )
   ENGINE = InnoDB
-  DEFAULT CHARSET = utf8
-  AUTO_INCREMENT = 2;
+  DEFAULT CHARSET = utf8;
 
 CREATE TABLE IF NOT EXISTS role_resource (
   role_id     INT NOT NULL,
@@ -80,8 +82,7 @@ CREATE TABLE IF NOT EXISTS role_resource (
     ON UPDATE CASCADE
 )
   ENGINE = InnoDB
-  DEFAULT CHARSET = utf8
-  AUTO_INCREMENT = 2;
+  DEFAULT CHARSET = utf8;
 
 CREATE TABLE persistent_logins (
   username  VARCHAR(64) NOT NULL,

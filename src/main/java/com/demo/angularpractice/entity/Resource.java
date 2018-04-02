@@ -9,7 +9,8 @@ import lombok.Setter;
 public class Resource extends BaseEntity {
     private static final long serialVersionUID = 1274603366550643621L;
     private Integer id;
-
     private String name;
-
+    private String url;
+    private String description;
+    private Integer pid;
 }

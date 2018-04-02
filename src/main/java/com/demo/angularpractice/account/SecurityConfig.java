@@ -13,6 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
@@ -47,6 +48,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private DataSource dataSource;
 
+    @Autowired
+    private MyFilterSecurityInterceptor myFilterSecurityInterceptor;
+
 
     /**
      * 忽略的静态文件
@@ -73,28 +77,38 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/", "/login", "/static/**/**.**", "/static/**.**", "/static/**/**/**.**").permitAll()                   //首页任意访问
-                .anyRequest().authenticated()                                //其他所有资源都需要认证
+                //其他所有资源都需要认证，首页任意访问
+                .antMatchers("/", "/login", "/static/**/**.**", "/static/**.**", "/static/**/**/**.**").permitAll()
+                .anyRequest().authenticated()
                 .and()
-                .formLogin()                                                   //登录入口
-                .loginPage("/login")                                           //登录页面入口
-                .loginProcessingUrl("/doLogin")                                //登录表单中字段
+                //登录入口
+                .formLogin()
+                //登录页面入口
+                .loginPage("/login")
+                //登录表单中字段
+                .loginProcessingUrl("/doLogin")
                 .passwordParameter("password")
                 .usernameParameter("username")
-                .successHandler(handlerLoginSuccess)                           //处理登陆成功
-                .failureHandler(handlerLoginFail)                              //处理登陆成功
-                .permitAll()                                                   //登录页面用户任意访问
+                //处理登陆成功
+                .successHandler(handlerLoginSuccess)
+                //处理登陆成功
+                .failureHandler(handlerLoginFail)
+                //登录页面用户任意访问
+                .permitAll()
                 .and()
                 .rememberMe()
-                .rememberMeParameter("remember-me").userDetailsService(userDetailsService) //rememberMe
+                //rememberMe
+                .rememberMeParameter("remember-me").userDetailsService(userDetailsService)
                 .tokenRepository(persistentTokenRepository())
                 .tokenValiditySeconds(60)
                 .and()
                 .authorizeRequests()
-                .anyRequest()
-                .access("@rbacService.hasPermission(request,authentication)") //是否具有url资源的访问权限
+                //.anyRequest()
+                //是否具有url资源的访问权限
+                //.access("@rbacService.hasPermission(request,authentication)")
                 .and()
-                .sessionManagement()                                           //Session 超时，最大在线数量
+                //Session 超时，最大在线数量
+                .sessionManagement()
                 .maximumSessions(1)
                 .maxSessionsPreventsLogin(true)
                 .sessionRegistry(getSessionRegistry())
@@ -103,13 +117,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and().userDetailsService(userDetailsService)
                 .exceptionHandling()
                 .and()
-                .logout()                                                      //注销
+                //注销
+                .logout()
                 .logoutUrl("/logout")
                 .logoutSuccessUrl("/login")
                 .invalidateHttpSession(true)
                 .clearAuthentication(true)
                 .permitAll()
-                .and().csrf().disable();
+                .and().csrf().disable()
+                .addFilterBefore(myFilterSecurityInterceptor, FilterSecurityInterceptor.class);
+
 
     }
 

@@ -4,6 +4,7 @@ server:
     context-path: /app
 
 ---
+#publickey: MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAJVZUJN+SmyePmPTfkWGRH8QBKjLg/O7c2CiaSQdqKBwROyKA+GFNHKBJ5t5EVM6oZoKJq9G6B+kG4b5Q6Dlwl8CAwEAAQ==
 spring:
   profiles: dev
   aop:
@@ -16,6 +17,7 @@ spring:
     schema: classpath:schema.sql
     url: jdbc:mysql://localhost:3306/angular
     username: root
+#    password: H/iEM/KsZnKPLA88EIjdk4J6v9ReUIKPlMVKlVAlMWQiS+wkU/KxfmqJmyO7KC+m19ROnilSWyh+zr5mqmQYKg==
     password: root
     druid:
       name: local-mysql
@@ -44,6 +46,7 @@ spring:
 #     连接保持空闲而不被驱逐的最长时间
       min-evictable-idle-time-millis: 40000
       use-global-data-source-stat: true
+#      connection-properties: config.decrypt=true;config.decrypt.key=${publickey}
       connection-properties: config.decrypt=false
       web-stat-filter:
         enabled: true
@@ -96,17 +99,25 @@ mybatis:
     default-statement-timeout: 25000
     log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
     use-actual-param-name: true
-#    interceptors: com.github.pagehelper.PageHelper
   configuration-properties:
     logImpl: SLF4J
-#debug: true
-#logging:
-#  level:
-#    root: debug
+
+
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+  params: count=countSql
+mapper:
+  mappers: tk.mybatis.springboot.util.MyMapper
+  not-empty: false
+  identity: MYSQL
+debug: false
+logging:
+  level:
+    root: info
 
 # 数据库连接池
-
-
 ---
 spring:
   profiles: prod

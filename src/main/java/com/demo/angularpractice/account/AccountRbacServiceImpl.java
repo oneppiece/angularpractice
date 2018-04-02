@@ -29,7 +29,6 @@ public class AccountRbacServiceImpl implements AccountRbacService {
         if (principal instanceof UserDetails) {
             SysUserParam user = (SysUserParam) principal;
             Set<String> urls = userMapper.selectResourcesByUser(user);
-
             for (String url : urls) {
                 if (antPathMatcher.match(url, requestURI)) {
                     hasPermission = true;

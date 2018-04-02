@@ -3,7 +3,6 @@ package com.demo.angularpractice.repository;
 import com.demo.angularpractice.account.SysUserParam;
 import com.demo.angularpractice.entity.Resource;
 import com.demo.angularpractice.entity.Role;
-import com.demo.angularpractice.entity.User;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -98,9 +97,6 @@ public interface UserMapper {
      */
     Set<String> selectUserResource(@Param("userId") int userId);
 
-    User selectByPrimaryKey(Integer id);
-
-    List<User> selectAll();
 
     int updateByPrimaryKey(@Param("userParam") SysUserParam userParam);
 
@@ -110,4 +106,8 @@ public interface UserMapper {
 
 
     SysUserParam selectByUserName(String username);
+
+    List<Resource> selectResourcesByUserId(@Param("userId") Integer id);
+
+    List<Resource> selectAllResource();
 }
