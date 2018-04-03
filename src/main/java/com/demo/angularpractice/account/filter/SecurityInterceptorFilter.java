@@ -1,4 +1,5 @@
-package com.demo.angularpractice.account.filter;
+package com.demo.angularpractice.account.filter
+        ;
 
 import com.demo.angularpractice.account.service.manager.AccountAccessDecisionManager;
 import org.springframework.beans.factory.annotation.Autowired;

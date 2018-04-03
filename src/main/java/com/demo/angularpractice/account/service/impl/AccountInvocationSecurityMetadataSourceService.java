@@ -1,4 +1,4 @@
-package com.demo.angularpractice.account.service.impl;
+package com.demo.angularpractice.account;
 
 import com.demo.angularpractice.entity.Resource;
 import com.demo.angularpractice.repository.UserMapper;

@@ -1,13 +1,13 @@
-# DROP DATABASE angular;
-# DROP TABLE users;
-# DROP TABLE roles;
-# DROP TABLE resources;
-# DROP TABLE user_role;
-# DROP TABLE role_resource;
-# DROP TABLE persistant_login;
+DROP DATABASE angular;
+DROP TABLE users;
+DROP TABLE roles;
+DROP TABLE resources;
+DROP TABLE user_role;
+DROP TABLE role_resource;
+DROP TABLE persistant_login;
 # #
 # # #
-# USE angular;
+USE angular;
 TRUNCATE TABLE users;
 TRUNCATE TABLE roles;
 TRUNCATE TABLE resources;

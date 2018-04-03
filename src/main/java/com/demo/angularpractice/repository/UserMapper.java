@@ -11,107 +11,110 @@ import java.util.Set;
 
 @Repository
 public interface UserMapper {
-    int deleteByPrimaryKey(Integer id);
+	int deleteByPrimaryKey(Integer id);
 
-    /**
-     * 新增用户
-     *
-     * @param record
-     * @return
-     */
-    int insertUser(@Param("record") UserParam record);
+	/**
+	 * 新增用户
+	 *
+	 * @param record
+	 * @return
+	 */
+	int insertUser(@Param("record") UserParam
+			               record);
 
-    /**
-     * 新增权限
-     *
-     * @param role
-     * @return
-     */
-    int insertRole(@Param("role") Role role);
+	/**
+	 * 新增权限
+	 *
+	 * @param role
+	 * @return
+	 */
+	int insertRole(@Param("role") Role role);
 
-    /**
-     * 新增资源
-     *
-     * @param resource
-     * @return
-     */
-    int insertResource(@Param("resource") Resource resource);
+	/**
+	 * 新增资源
+	 *
+	 * @param resource
+	 * @return
+	 */
+	int insertResource(@Param("resource") Resource resource);
 
-    /**
-     * 给用户分配角色
-     *
-     * @param userId
-     * @param RoleId
-     * @return
-     */
-    int updateUserRole(@Param("userId") int userId, @Param("roleId") int RoleId);
+	/**
+	 * 给用户分配角色
+	 *
+	 * @param userId
+	 * @param RoleId
+	 * @return
+	 */
+	int updateUserRole(@Param("userId") int userId, @Param("roleId") int RoleId);
 
-    /**
-     * 删除用户角色
-     *
-     * @param userId
-     * @param RoleId
-     * @return
-     */
-    int deleteUserRole(@Param("userId") int userId, @Param("roleId") int RoleId);
+	/**
+	 * 删除用户角色
+	 *
+	 * @param userId
+	 * @param RoleId
+	 * @return
+	 */
+	int deleteUserRole(@Param("userId") int userId, @Param("roleId") int RoleId);
 
-    /**
-     * 给角色分配资源
-     *
-     * @param roleId
-     * @param resourceId
-     * @return
-     */
-    int updateRoleResource(@Param("roleId") int roleId, @Param("resourceId") int resourceId);
+	/**
+	 * 给角色分配资源
+	 *
+	 * @param roleId
+	 * @param resourceId
+	 * @return
+	 */
+	int updateRoleResource(@Param("roleId") int roleId, @Param("resourceId") int resourceId);
 
-    /**
-     * 删除角色资源
-     *
-     * @param roleId
-     * @param resourceId
-     * @return
-     */
-    int deleteRoleResource(@Param("roleId") int roleId, @Param("resourceId") int resourceId);
+	/**
+	 * 删除角色资源
+	 *
+	 * @param roleId
+	 * @param resourceId
+	 * @return
+	 */
+	int deleteRoleResource(@Param("roleId") int roleId, @Param("resourceId") int resourceId);
 
-    /**
-     * 查看用户角色
-     *
-     * @param userId
-     * @return
-     */
-    Set<String> selectUserRoles(@Param("userId") String userId);
+	/**
+	 * 查看用户角色
+	 *
+	 * @param userId
+	 * @return
+	 */
+	Set<String> selectUserRoles(@Param("userId") String userId);
 
-    /**
-     * 查询角色权限
-     *
-     * @param roleId
-     * @return
-     */
-    Set<String> selectRoleResource(@Param("roleId") int roleId);
+	/**
+	 * 查询角色权限
+	 *
+	 * @param roleId
+	 * @return
+	 */
+	Set<String> selectRoleResource(@Param("roleId") int roleId);
 
-    /**
-     * 查询用户资源
-     *
-     * @param userId
-     * @return
-     */
-    Set<String> selectUserResource(@Param("userId") int userId);
-
-
-    int updateByPrimaryKey(@Param("userParam") UserParam userParam);
-
-    UserParam selectByUser(@Param("userParam") UserParam userParam);
-
-    Set<String> selectResourcesByUser(@Param("userParam") UserParam userParam);
+	/**
+	 * 查询用户资源
+	 *
+	 * @param userId
+	 * @return
+	 */
+	Set<String> selectUserResource(@Param("userId") int userId);
 
 
-    UserParam selectByUserName(String username);
+	int updateByPrimaryKey(@Param("userParam") UserParam userParam);
 
-    List<Resource> selectResourcesByUserId(@Param("userId") Integer id);
+	UserParam selectByUser(@Param("userParam") UserParam userParam);
 
-    List<Resource> selectAllResource();
+	Set<String> selectResourcesByUser(@Param("userParam") UserParam userParam);
 
-    List<Resource> selectResourcesByRole(@Param("role") Role role);
 
-    List<Role> selectRolesByCondition(@Param("role") Role role);
+	UserParam selectByUserName(String username);
+
+	List<Resource> selectResourcesByUserId(@Param("userId") Integer id);
+
+	List<Resource> selectAllResource();
+
+	List<Role> selectRolesByCondition(@Param("role") Role param);
+
+	List<Role> selectAllRoles(Role param);
+
+	List<Resource> selectResourcesByRole(@Param("role") Role param);
 }

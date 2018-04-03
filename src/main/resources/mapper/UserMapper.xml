@@ -296,4 +296,7 @@
             </if>
         </where>
     </select>
+    <select id="selectAllRoles" resultType="com.demo.angularpractice.entity.Role">
+        select * from roles
+    </select>
 </mapper>

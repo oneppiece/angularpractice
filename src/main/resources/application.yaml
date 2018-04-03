@@ -107,14 +107,10 @@ pagehelper:
   reasonable: true
   support-methods-arguments: true
   params: count=countSql
-mapper:
-  mappers: tk.mybatis.springboot.util.MyMapper
-  not-empty: false
-  identity: MYSQL
-debug: false
+debug: true
 logging:
   level:
-    root: info
+    root: debug
 
 
 # 数据库连接池
