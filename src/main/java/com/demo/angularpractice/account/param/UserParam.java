@@ -1,5 +1,6 @@
-package com.demo.angularpractice.account;
+package com.demo.angularpractice.account.param;
 
+import com.demo.angularpractice.account.domain.BaseReqParam;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
@@ -10,13 +11,12 @@ import java.util.Collection;
 
 /**
  * 用户
- * Created by Administrator on 22:01.
+ *
+ * @author dzy
  */
 @Setter
-public class SysUserParam extends BaseParam implements UserDetails {
-    private static final long serialVersionUID = 5274162006516373373L;
+public class UserParam extends BaseReqParam implements UserDetails {
     @Getter
-
     private Integer id;
     @Getter
     private String username;
@@ -30,22 +30,6 @@ public class SysUserParam extends BaseParam implements UserDetails {
     private Boolean accountNonLocked;
     private Boolean enabled;
     private Boolean credentialsNonExpired;
-
-    public SysUserParam() {
-    }
-
-    public SysUserParam(Integer id, String username, String name, String password, String roleName, Boolean accountNonExpired, Boolean accountNonLocked, Boolean enabled, Boolean credentialsNonExpired) {
-        this.id = id;
-        this.username = username;
-        this.name = name;
-        this.password = password;
-        this.roleName = roleName;
-        this.accountNonExpired = accountNonExpired;
-        this.accountNonLocked = accountNonLocked;
-        this.enabled = enabled;
-        this.credentialsNonExpired = credentialsNonExpired;
-    }
-
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -1,5 +1,10 @@
 package com.demo.angularpractice.account;
 
+import com.demo.angularpractice.account.filter.SecurityInterceptorFilter;
+import com.demo.angularpractice.account.service.handler.HandlerLoginFail;
+import com.demo.angularpractice.account.service.handler.HandlerLoginSuccess;
+import com.demo.angularpractice.account.service.impl.AccountAuthenticationProvider;
+import com.demo.angularpractice.account.service.impl.AccountPasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.context.ApplicationContext;
@@ -49,7 +54,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private DataSource dataSource;
 
     @Autowired
-    private MyFilterSecurityInterceptor myFilterSecurityInterceptor;
+    private SecurityInterceptorFilter securityInterceptorFilter;
 
 
     /**
@@ -78,10 +83,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 //其他所有资源都需要认证，首页任意访问
-                .antMatchers("/", "/login", "/static/**/**.**", "/static/**.**", "/static/**/**/**.**").permitAll()
+                .antMatchers("/", "/login", "/static/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                //登录入口
                 .formLogin()
                 //登录页面入口
                 .loginPage("/login")
@@ -89,15 +93,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginProcessingUrl("/doLogin")
                 .passwordParameter("password")
                 .usernameParameter("username")
-                //处理登陆成功
                 .successHandler(handlerLoginSuccess)
-                //处理登陆成功
                 .failureHandler(handlerLoginFail)
-                //登录页面用户任意访问
                 .permitAll()
                 .and()
-                .rememberMe()
                 //rememberMe
+                .rememberMe()
                 .rememberMeParameter("remember-me").userDetailsService(userDetailsService)
                 .tokenRepository(persistentTokenRepository())
                 .tokenValiditySeconds(60)
@@ -125,7 +126,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .clearAuthentication(true)
                 .permitAll()
                 .and().csrf().disable()
-                .addFilterBefore(myFilterSecurityInterceptor, FilterSecurityInterceptor.class);
+                .addFilterBefore(securityInterceptorFilter, FilterSecurityInterceptor.class);
 
 
     }

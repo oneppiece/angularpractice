@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.demo.angularpractice.repository.UserMapper">
-    <resultMap id="BaseResultMap" type="com.demo.angularpractice.account.SysUserParam">
+    <resultMap id="BaseResultMap" type="com.demo.angularpractice.account.param.UserParam">
         <id column="id" jdbcType="INTEGER" property="id"/>
         <result column="name" jdbcType="VARCHAR" property="name"/>
         <result column="username" jdbcType="VARCHAR" property="username"/>
@@ -245,7 +245,7 @@
             LEFT JOIN resources r ON rr.resource_id = r.id
         WHERE u.id = #{userId}
     </select>
-    <select id="selectByUserName" resultType="com.demo.angularpractice.account.SysUserParam">
+    <select id="selectByUserName" resultType="com.demo.angularpractice.account.param.UserParam">
         SELECT
             id,
             name,
@@ -267,6 +267,33 @@
         WHERE u.id = #{userId}
     </select>
     <select id="selectAllResource" resultType="com.demo.angularpractice.entity.Resource">
-        select * from resources
+        SELECT *
+        FROM resources
+    </select>
+    <select id="selectResourcesByRole" resultType="com.demo.angularpractice.entity.Resource">
+        SELECT resources.*
+        FROM roles
+        LEFT JOIN role_resource resource ON roles.id = resource.role_id
+        LEFT JOIN resources ON resource.resource_id = resources.id
+        <where>
+            <if test="role.id != null">
+                roles.id = #{role.id}
+            </if>
+            <if test="role.name != null">
+                roles.name = #{role.name}
+            </if>
+        </where>
+    </select>
+    <select id="selectRolesByCondition" resultType="com.demo.angularpractice.entity.Role">
+        SELECT *
+        FROM roles
+        <where>
+            <if test="role.id != null">
+                roles.id = #{role.id}
+            </if>
+            <if test="role.name != null">
+                roles.name = #{role.name}
+            </if>
+        </where>
     </select>
 </mapper>

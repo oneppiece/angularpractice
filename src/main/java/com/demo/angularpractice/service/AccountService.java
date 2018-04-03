@@ -1,14 +1,14 @@
 package com.demo.angularpractice.service;
 
-import com.demo.angularpractice.account.SysUserParam;
+import com.demo.angularpractice.account.param.UserParam;
 
 /**
  * liyan-下午9:57
  **/
 public interface AccountService {
 
-    SysUserParam changePassword(String userId, String oldPassword, String newPassword);
+    UserParam changePassword(String userId, String oldPassword, String newPassword);
 
-    SysUserParam login(String userName, String password);
+    UserParam login(String userName, String password);
 
 }

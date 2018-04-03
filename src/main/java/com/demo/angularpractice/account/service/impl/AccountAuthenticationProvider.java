@@ -1,5 +1,6 @@
-package com.demo.angularpractice.account;
+package com.demo.angularpractice.account.service.impl;
 
+import com.demo.angularpractice.account.param.UserParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -16,6 +17,8 @@ import java.util.Objects;
 
 /**
  * 认证
+ *
+ * @author dzy
  */
 @Component
 public class AccountAuthenticationProvider implements AuthenticationProvider {
@@ -39,7 +42,7 @@ public class AccountAuthenticationProvider implements AuthenticationProvider {
         AccountPasswordEncoder passwordEncoder = new AccountPasswordEncoder();
         String encodePwd = passwordEncoder.encode(password);
 
-        SysUserParam userDetails = (SysUserParam) userDetailsService.loadUserByUsername(userName);
+        UserParam userDetails = (UserParam) userDetailsService.loadUserByUsername(userName);
 
         if (Objects.isNull(userDetails)) {
             throw new UsernameNotFoundException("用户名不存在！");

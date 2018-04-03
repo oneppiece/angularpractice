@@ -1,6 +1,6 @@
 package com.demo.angularpractice.repository;
 
-import com.demo.angularpractice.account.SysUserParam;
+import com.demo.angularpractice.account.param.UserParam;
 import com.demo.angularpractice.entity.Resource;
 import com.demo.angularpractice.entity.Role;
 import org.apache.ibatis.annotations.Param;
@@ -19,7 +19,7 @@ public interface UserMapper {
      * @param record
      * @return
      */
-    int insertUser(@Param("record") SysUserParam record);
+    int insertUser(@Param("record") UserParam record);
 
     /**
      * 新增权限
@@ -98,16 +98,20 @@ public interface UserMapper {
     Set<String> selectUserResource(@Param("userId") int userId);
 
 
-    int updateByPrimaryKey(@Param("userParam") SysUserParam userParam);
+    int updateByPrimaryKey(@Param("userParam") UserParam userParam);
 
-    SysUserParam selectByUser(@Param("userParam") SysUserParam userParam);
+    UserParam selectByUser(@Param("userParam") UserParam userParam);
 
-    Set<String> selectResourcesByUser(@Param("userParam") SysUserParam userParam);
+    Set<String> selectResourcesByUser(@Param("userParam") UserParam userParam);
 
 
-    SysUserParam selectByUserName(String username);
+    UserParam selectByUserName(String username);
 
     List<Resource> selectResourcesByUserId(@Param("userId") Integer id);
 
     List<Resource> selectAllResource();
+
+    List<Resource> selectResourcesByRole(@Param("role") Role role);
+
+    List<Role> selectRolesByCondition(@Param("role") Role role);
 }

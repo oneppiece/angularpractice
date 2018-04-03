@@ -1,4 +1,4 @@
-package com.demo.angularpractice.account;
+package com.demo.angularpractice.account.domain;
 
 import lombok.Getter;
 import org.springframework.stereotype.Component;

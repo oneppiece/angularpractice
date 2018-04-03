@@ -1,13 +1,13 @@
-package com.demo.angularpractice.entity;
+package com.demo.angularpractice.account.param;
 
 
+import com.demo.angularpractice.account.domain.BaseReqParam;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class Role extends BaseEntity {
-    private static final long serialVersionUID = 1274603366550643621L;
+public class ResourceParam extends BaseReqParam {
     private Integer id;
     private String name;
     private String url;

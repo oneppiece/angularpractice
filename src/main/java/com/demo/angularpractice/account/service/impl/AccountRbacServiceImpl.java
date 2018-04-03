@@ -1,5 +1,7 @@
-package com.demo.angularpractice.account;
+package com.demo.angularpractice.account.service.impl;
 
+import com.demo.angularpractice.account.param.UserParam;
+import com.demo.angularpractice.account.service.AccountRbacService;
 import com.demo.angularpractice.repository.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -27,7 +29,7 @@ public class AccountRbacServiceImpl implements AccountRbacService {
         String requestURI = request.getRequestURI().substring(appContextName.length());
         boolean hasPermission = false;
         if (principal instanceof UserDetails) {
-            SysUserParam user = (SysUserParam) principal;
+            UserParam user = (UserParam) principal;
             Set<String> urls = userMapper.selectResourcesByUser(user);
             for (String url : urls) {
                 if (antPathMatcher.match(url, requestURI)) {

@@ -1,4 +1,4 @@
-package com.demo.angularpractice.account;
+package com.demo.angularpractice.account.util;
 
 /**
  * 工具类

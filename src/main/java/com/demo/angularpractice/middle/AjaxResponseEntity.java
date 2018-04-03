@@ -1,4 +1,4 @@
-package com.demo.angularpractice.account;
+package com.demo.angularpractice.middle;
 
 import lombok.Getter;
 import lombok.Setter;

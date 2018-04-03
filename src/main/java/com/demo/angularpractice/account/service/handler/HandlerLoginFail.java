@@ -1,4 +1,4 @@
-package com.demo.angularpractice.account;
+package com.demo.angularpractice.account.service.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Maps;

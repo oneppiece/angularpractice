@@ -1,5 +1,6 @@
-package com.demo.angularpractice.account;
+package com.demo.angularpractice.account.filter;
 
+import com.demo.angularpractice.account.service.manager.AccountAccessDecisionManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.SecurityMetadataSource;
 import org.springframework.security.access.intercept.AbstractSecurityInterceptor;
@@ -12,14 +13,14 @@ import javax.servlet.*;
 import java.io.IOException;
 
 @Service
-public class MyFilterSecurityInterceptor extends AbstractSecurityInterceptor implements Filter {
+public class SecurityInterceptorFilter extends AbstractSecurityInterceptor implements Filter {
 
     @Autowired
     private FilterInvocationSecurityMetadataSource securityMetadataSource;
 
     @Autowired
-    public void setMyAccessDecisionManager(MyAccessDecisionManager myAccessDecisionManager) {
-        super.setAccessDecisionManager(myAccessDecisionManager);
+    public void setMyAccessDecisionManager(AccountAccessDecisionManager accountAccessDecisionManager) {
+        super.setAccessDecisionManager(accountAccessDecisionManager);
     }
 
     @Override

@@ -1,5 +1,9 @@
-package com.demo.angularpractice.account;
+package com.demo.angularpractice.account.controller;
 
+import com.demo.angularpractice.account.domain.AppException;
+import com.demo.angularpractice.account.param.UserParam;
+import com.demo.angularpractice.account.service.AccountService;
+import com.demo.angularpractice.middle.AjaxResponseEntity;
 import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +21,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Objects;
 
+/**
+ * @author dzy
+ */
 @org.springframework.stereotype.Controller
 @Slf4j
 public class CommonController {
@@ -24,12 +31,12 @@ public class CommonController {
     private AccountService accountService;
 
     @RequestMapping(value = "/login")
-    public String login(@ModelAttribute(name = "sysUserParam") SysUserParam sysUserParam, @RequestParam(name = "error", required = false) String error) {
+    public String login(@ModelAttribute(name = "userParam") UserParam userParam, @RequestParam(name = "error", required = false) String error) {
         return "login";
     }
 
     @RequestMapping(value = "/")
-    public String index(@ModelAttribute(name = "sysUserParam") SysUserParam sysUserParam) {
+    public String index(@ModelAttribute(name = "sysUserParam") UserParam userParam) {
         return "login";
     }
 
@@ -47,9 +54,9 @@ public class CommonController {
      */
     @RequestMapping(value = "/changePassword")
     @ResponseBody
-    public AjaxResponseEntity<SysUserParam> changePassword(Principal principal, SysUserParam userInfoParam) {
+    public AjaxResponseEntity<UserParam> changePassword(Principal principal, UserParam userInfoParam) {
         log.info("PublicController ->Call changePassword.Paramter:{}" + userInfoParam);
-        AjaxResponseEntity<SysUserParam> result = new AjaxResponseEntity<>();
+        AjaxResponseEntity<UserParam> result = new AjaxResponseEntity<>();
         result.setRequestTime(new Date());
         try {
             userInfoParam.setUsername(principal.getName());
@@ -88,11 +95,13 @@ public class CommonController {
     public void sessionTimeout(HttpServletRequest request, HttpServletResponse response) throws IOException {
         if (request.getHeader("x-requested-with") != null
                 && request.getHeader("x-requested-with").equalsIgnoreCase(
-                "XMLHttpRequest")) { // ajax 超时处理
-            response.getWriter().print("timeout");  //设置超时标识
+                "XMLHttpRequest")) {
+            response.getWriter().print("timeout");
             response.getWriter().close();
         } else {
             response.sendRedirect("/login");
         }
     }
+
+
 }

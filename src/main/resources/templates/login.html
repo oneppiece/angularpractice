@@ -14,16 +14,16 @@
 <div class="container">
     <div class="row">
         <div class="col-md-3 col-md-push-3">
-            <form class="form-horizontal" th:object="${sysUserParam}" th:action="@{/doLogin}" method="post">
+            <form class="form-horizontal" th:action="@{/doLogin}" method="post">
                 <div class="row">
                     <p class="heading text-center">App</p>
                 </div>
                 <div class="form-group">
-                    <input type="text" th:field="*{username}" class="form-control" placeholder="用户名">
+                    <input type="text" name="username" class="form-control" placeholder="用户名">
                     <i class="fa fa-user"></i>
                 </div>
                 <div class="form-group help">
-                    <input type="password" class="form-control" placeholder="密码" th:field="*{password}">
+                    <input type="password" class="form-control" placeholder="密码" name="password">
                     <input id="remember-me" name="remember-me" type="checkbox" checked="checked"/>
                     <i class="fa fa-lock"></i>
                 </div>
@@ -44,7 +44,7 @@
     /*<![CDATA[*/
     var msg = [[${session.SPRING_SECURITY_LAST_EXCEPTION}]];
     if (msg != null && msg != "") {
-        msg = "<p style=\"text-align:center\">" + [[${session.SPRING_SECURITY_LAST_EXCEPTION.message}]] + "</p>";
+        msg = "<p style=\"text-align:center\">" + [[${session.SPRING_SECURITY_LAST_EXCEPTION}]] + "</p>";
         $.bootstrapGrowl(msg, {
             type: 'danger',
             offset: {
