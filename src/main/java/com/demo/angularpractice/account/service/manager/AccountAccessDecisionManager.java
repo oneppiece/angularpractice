@@ -14,9 +14,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.FilterInvocation;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -27,63 +25,51 @@ import java.util.List;
 @Service
 public class AccountAccessDecisionManager implements AccessDecisionManager {
 
-    @Autowired
-    private UserMapper userMapper;
-    @Value("${server.servlet.context-path}")
-    private String appContextName;
+	@Autowired
+	private UserMapper userMapper;
+	@Value("${server.servlet.context-path}")
+	private String appContextName;
 
-    /**
-     * 如果当前用户所拥有的任意角色包含此次访问的url，则通过。否则，不通过。
-     *
-     * @param authentication
-     * @param object
-     * @param configAttributes
-     * @throws AccessDeniedException
-     * @throws InsufficientAuthenticationException
-     */
-    @Override
-    public void decide(Authentication authentication, Object object, Collection<ConfigAttribute> configAttributes) throws AccessDeniedException, InsufficientAuthenticationException {
-        if (!authentication.isAuthenticated()) {
-            throw new AccessDeniedException("no right");
-        }
-        String requestURI = ((FilterInvocation) object).getRequest().getRequestURI().substring(appContextName.length());
-        Iterator<ConfigAttribute> iterator = configAttributes.iterator();
-        while (iterator.hasNext()) {
-            ConfigAttribute configAttribute = iterator.next();
-            if ("404".equals(configAttribute.getAttribute())) {
-                try {
-                    ((FilterInvocation) object).getHttpResponse().getWriter().write("{\"errorCode\", \"404\"}");
-                    return;
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
+	/**
+	 * 如果当前用户所拥有的任意角色包含此次访问的url，则通过。否则，不通过。
+	 *
+	 * @param authentication
+	 * @param object
+	 * @param configAttributes
+	 * @throws AccessDeniedException
+	 * @throws InsufficientAuthenticationException
+	 */
+	@Override
+	public void decide(Authentication authentication, Object object, Collection<ConfigAttribute> configAttributes) throws AccessDeniedException, InsufficientAuthenticationException {
+		if (!authentication.isAuthenticated()) {
+			throw new AccessDeniedException("no right");
+		}
+		String requestURI = ((FilterInvocation) object).getRequest().getRequestURI().substring(appContextName.length());
 
-        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+		Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
 
-        for (GrantedAuthority authority : authorities) {
-            String roleName = authority.getAuthority();
-            Role role = new Role();
-            role.setName(roleName);
-            List<Resource> resources = userMapper.selectResourcesByRole(role);
-            for (Resource resource : resources) {
-                if (resource.getUrl().equals(requestURI)) {
-                    return;
-                }
-            }
-        }
-        throw new AccessDeniedException("no right");
+		for (GrantedAuthority authority : authorities) {
+			String roleName = authority.getAuthority();
+			Role role = new Role();
+			role.setName(roleName);
+			List<Resource> resources = userMapper.selectResourcesByRole(role);
+			for (Resource resource : resources) {
+				if (resource.getUrl().equals(requestURI)) {
+					return;
+				}
+			}
+		}
+		throw new AccessDeniedException("no right");
 
-    }
+	}
 
-    @Override
-    public boolean supports(ConfigAttribute attribute) {
-        return true;
-    }
+	@Override
+	public boolean supports(ConfigAttribute attribute) {
+		return true;
+	}
 
-    @Override
-    public boolean supports(Class<?> clazz) {
-        return true;
-    }
+	@Override
+	public boolean supports(Class<?> clazz) {
+		return true;
+	}
 }

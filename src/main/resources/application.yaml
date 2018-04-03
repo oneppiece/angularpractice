@@ -110,7 +110,7 @@ pagehelper:
 debug: true
 logging:
   level:
-    root: debug
+    root: info
 
 
 # 数据库连接池

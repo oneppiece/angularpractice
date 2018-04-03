@@ -12,20 +12,20 @@ import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
  */
 @Configuration
 public class WebConfig extends WebMvcConfigurerAdapter {
-    /**
-     * js,图片,音乐等静态资源的处理
-     *
-     * @param registry
-     */
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
-        registry.addResourceHandler("/templates/**").addResourceLocations("classpath:/templates/");
-    }
+	/**
+	 * js,图片,音乐等静态资源的处理
+	 *
+	 * @param registry
+	 */
+	@Override
+	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+		registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
+		registry.addResourceHandler("/templates/**").addResourceLocations("classpath:/templates/");
+	}
 
-    @Bean
-    public SpringSecurityDialect securityDialect() {
-        return new SpringSecurityDialect();
-    }
+	@Bean
+	public SpringSecurityDialect securityDialect() {
+		return new SpringSecurityDialect();
+	}
 
 }
