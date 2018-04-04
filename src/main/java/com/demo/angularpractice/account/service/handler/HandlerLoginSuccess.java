@@ -15,6 +15,8 @@ import java.util.Map;
 
 /**
  * 登陆成功处理类
+ *
+ * @author dzy
  */
 @Component
 public class HandlerLoginSuccess extends SavedRequestAwareAuthenticationSuccessHandler {
@@ -25,20 +27,10 @@ public class HandlerLoginSuccess extends SavedRequestAwareAuthenticationSuccessH
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
             throws IOException, ServletException {
-        //什么都不做的话，那就直接调用父类的方法
-        //super.onAuthenticationSuccess(request, response, authentication);
-
-        //这里可以根据实际情况，来确定是跳转到页面或者json格式。
-        //返回json格式
         Map<String, String> map = Maps.newHashMap();
         map.put("code", "200");
         map.put("msg", "登录成功");
         response.setContentType("application/json;charset=UTF-8");
         response.getWriter().write(objectMapper.writeValueAsString(map));
-
-
-        //跳转到某个页面
-        // new DefaultRedirectStrategy().sendRedirect(request, response, "/whoami");
-
     }
 }
