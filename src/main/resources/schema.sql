@@ -91,3 +91,22 @@ CREATE TABLE persistent_logins (
   last_used TIMESTAMP   NOT NULL,
   PRIMARY KEY (series)
 );
+
+
+CREATE TABLE IF NOT EXISTS products (
+  id           INT AUTO_INCREMENT NOT NULL,
+  product_name VARCHAR(20),
+  PRIMARY KEY (id)
+)
+  ENGINE = InnoDB
+  DEFAULT CHARSET = utf8
+  AUTO_INCREMENT = 2;
+
+CREATE TABLE IF NOT EXISTS logs (
+  id           INT AUTO_INCREMENT NOT NULL,
+  content      VARCHAR(20),
+  PRIMARY KEY (id)
+)
+  ENGINE = InnoDB
+  DEFAULT CHARSET = utf8
+  AUTO_INCREMENT = 1;

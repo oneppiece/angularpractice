@@ -70,7 +70,7 @@
                <!--enableDeleteByExample="false" enableSelectByExample="true"-->
                <!--enableUpdateByExample="false">-->
         <!--</table>-->
-        <table tableName="persistant_login" domainObjectName="PersistentLogin"
+        <table tableName="logs" domainObjectName="Log"
                enableCountByExample="false"
                enableDeleteByExample="false" enableSelectByExample="true"
                enableUpdateByExample="false">
