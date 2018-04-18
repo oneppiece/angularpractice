@@ -85,7 +85,7 @@ public interface UserMapper {
      * @return
      */
     @Cacheable(key = "'user_role_'+#userId", unless = "#result == null")
-    Set<String> selectUserRoles(@Param("userId") String userId);
+    Set<String> selectUserRoles(@Param("userId") int userId);
 
     /**
      * 查询角色权限
@@ -118,7 +118,7 @@ public interface UserMapper {
     UserParam selectByUserName(String username);
 
     @Cacheable(key = "'user_resourcde'+#id", unless = "#result == null")
-    List<Resource> selectResourcesByUserId(@Param("userId") Integer id);
+    Set<Resource> selectResourcesByUserId(@Param("userId") Integer id);
 
     List<Resource> selectAllResource();
 

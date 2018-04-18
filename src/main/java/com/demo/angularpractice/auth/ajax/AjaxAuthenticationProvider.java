@@ -16,38 +16,44 @@ import org.springframework.util.Assert;
 
 import java.util.Objects;
 
+/**
+ * 针对非Form请求的Provider
+ *
+ * @author liyan
+ */
 @Component
 public class AjaxAuthenticationProvider implements AuthenticationProvider {
-    @Autowired
-    private AccountPasswordEncoder encoder;
-    @Autowired
-    private AccountService userService;
+	@Autowired
+	private AccountPasswordEncoder encoder;
+	@Autowired
+	private AccountService userService;
 
-    @Override
-    public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        Assert.notNull(authentication, "No authentication data provided");
+	@Override
+	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+		Assert.notNull(authentication, "找不到授权信息!");
 
-        String username = (String) authentication.getPrincipal();
-        String password = (String) authentication.getCredentials();
+		String username = (String) authentication.getPrincipal();
+		String password = (String) authentication.getCredentials();
 
-        UserDetails user = userService.loadUserByUsername(username);
-        if (Objects.isNull(user)) {
-            new UsernameNotFoundException("User not found: " + username);
-        }
+		UserDetails user = userService.loadUserByUsername(username);
 
-        if (!encoder.matches(password, user.getPassword())) {
-            throw new BadCredentialsException("Authentication Failed. Username or Password not valid.");
-        }
+		if (Objects.isNull(user)) {
+			throw new UsernameNotFoundException("用户: " + username + "不存在!");
+		}
 
-        if (user.getAuthorities() == null)
-            throw new InsufficientAuthenticationException("User has no authorities assigned");
+		if (!encoder.matches(password, user.getPassword())) {
+			throw new BadCredentialsException("密码不匹配!");
+		}
 
-        return new UsernamePasswordAuthenticationToken(username, user.getPassword(), user.getAuthorities());
-    }
+		if (user.getAuthorities() == null)
+			throw new InsufficientAuthenticationException("用户没有任何权限!");
+
+		return new UsernamePasswordAuthenticationToken(username, user.getPassword(), user.getAuthorities());
+	}
 
 
-    @Override
-    public boolean supports(Class<?> authentication) {
-        return true;
-    }
+	@Override
+	public boolean supports(Class<?> authentication) {
+		return true;
+	}
 }

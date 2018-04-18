@@ -21,20 +21,18 @@ import java.io.IOException;
  */
 @Component("ajaxFailureHandler")
 public class AjaxAwareAuthenticationFailureHandler implements AuthenticationFailureHandler {
-    private final ObjectMapper mapper = new ObjectMapper();
+	private final ObjectMapper mapper = new ObjectMapper();
 
-    @Override
-    public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
-                                        AuthenticationException e) throws IOException, ServletException {
+	@Override
+	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
+	                                    AuthenticationException e) throws IOException, ServletException {
 
-        response.setStatus(HttpStatus.UNAUTHORIZED.value());
-        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+		response.setStatus(HttpStatus.UNAUTHORIZED.value());
+		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 
-        if (e instanceof BadCredentialsException) {
-            mapper.writeValue(response.getWriter(), new AppException(HttpStatus.UNAUTHORIZED.toString(), e.getMessage()));
-        } else if (e instanceof AuthMethodNotSupportedException) {
-            mapper.writeValue(response.getWriter(), new AppException(HttpStatus.UNAUTHORIZED.toString(), e.getMessage()));
-        }
-        mapper.writeValue(response.getWriter(), new AppException(HttpStatus.UNAUTHORIZED.toString(), e.getMessage()));
-    }
+		if (e instanceof BadCredentialsException) {
+			mapper.writeValue(response.getWriter(), new AppException(HttpStatus.UNAUTHORIZED.toString(), e.getMessage()));
+		}
+		mapper.writeValue(response.getWriter(), new AppException(HttpStatus.UNAUTHORIZED.toString(), e.getMessage()));
+	}
 }

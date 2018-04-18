@@ -6,15 +6,15 @@
         <result column="name" property="name" jdbcType="VARCHAR"/>
     </resultMap>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-        DELETE FROM roles
+        DELETE FROM authorities
         WHERE id = #{id,jdbcType=INTEGER}
     </delete>
     <insert id="insert" parameterType="com.demo.angularpractice.entity.Role">
-        INSERT INTO roles (id, name)
+        INSERT INTO authorities (id, name)
         VALUES (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR})
     </insert>
     <update id="updateByPrimaryKey" parameterType="com.demo.angularpractice.entity.Role">
-        UPDATE roles
+        UPDATE authorities
         SET name = #{name,jdbcType=VARCHAR}
         WHERE id = #{id,jdbcType=INTEGER}
     </update>
@@ -22,13 +22,13 @@
         SELECT
             id,
             name
-        FROM roles
+        FROM authorities
         WHERE id = #{id,jdbcType=INTEGER}
     </select>
     <select id="selectAll" resultMap="BaseResultMap">
         SELECT
             id,
             name
-        FROM roles
+        FROM authorities
     </select>
 </mapper>

@@ -33,6 +33,8 @@ public class SecurityConst {
     public String authorization;
     @Value("${auth_endpoint_header_token}")
     public String headerToken;
-    @Value("${auth_endpoint_api_url_root}")
-    public String root;
+    @Value("${auth_endpoint_root}")
+    public String apiroot;
+    @Value("${token_header_name}")
+    public String tokenHeader;
 }
