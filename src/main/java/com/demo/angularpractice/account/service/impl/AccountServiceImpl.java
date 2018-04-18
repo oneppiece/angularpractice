@@ -22,7 +22,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 @Component("userDetailsService")
 public class AccountServiceImpl implements AccountService {
@@ -44,7 +43,6 @@ public class AccountServiceImpl implements AccountService {
         } else if (!userInfo.isEnabled()) {
             throw new UsernameNotFoundException("用户已被禁用!");
         } else {
-            Set<String> strings = userMapper.selectResourcesByUser(userInfo);
             List<Resource> resources = userMapper.selectResourcesByUserId(userInfo.getId());
             List<GrantedAuthority> grantedAuthorities = Lists.newArrayList();
             for (Resource resource : resources) {

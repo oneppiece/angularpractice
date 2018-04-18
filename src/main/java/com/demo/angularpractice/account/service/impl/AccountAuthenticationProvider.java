@@ -37,7 +37,6 @@ public class AccountAuthenticationProvider implements AuthenticationProvider {
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String userName = authentication.getName();
         String password = (String) authentication.getCredentials();
-
         //加密
         AccountPasswordEncoder passwordEncoder = new AccountPasswordEncoder();
         String encodePwd = passwordEncoder.encode(password);

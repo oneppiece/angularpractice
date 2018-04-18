@@ -45,12 +45,17 @@ public class SecurityInterceptorFilter extends AbstractSecurityInterceptor imple
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         FilterInvocation fi = new FilterInvocation(request, response, chain);
-        InterceptorStatusToken token = super.beforeInvocation(fi);
+        //InterceptorStatusToken token = beforeInvocation(fi);
         try {
             fi.getChain().doFilter(fi.getRequest(), fi.getResponse());
         } finally {
-            super.afterInvocation(token, null);
+           // super.afterInvocation(token, null);
         }
+    }
+
+    @Override
+    protected InterceptorStatusToken beforeInvocation(Object object) {
+        return super.beforeInvocation(object);
     }
 
     @Override
