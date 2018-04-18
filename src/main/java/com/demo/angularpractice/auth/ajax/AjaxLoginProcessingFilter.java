@@ -1,8 +1,10 @@
-package com.demo.angularpractice.account.filter;
+package com.demo.angularpractice.auth.ajax;
 
 import com.demo.angularpractice.account.util.WebUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -18,35 +20,51 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Enumeration;
 
+/**
+ * AjaxLoginProcessingFilter
+ *
+ * @author vladimir.stankovic
+ * <p>
+ * Aug 3, 2016
+ */
 public class AjaxLoginProcessingFilter extends AbstractAuthenticationProcessingFilter {
+    private static Logger logger = LoggerFactory.getLogger(AjaxLoginProcessingFilter.class);
 
     private final AuthenticationSuccessHandler successHandler;
     private final AuthenticationFailureHandler failureHandler;
-    private final ObjectMapper objectMapper;
-    private final String defaultFilterProcessesUrl = "/doLogin";
 
-    protected AjaxLoginProcessingFilter(String defaultFilterProcessesUrl, AuthenticationSuccessHandler successHandler,
-                                        AuthenticationFailureHandler failureHandler, ObjectMapper mapper) {
-        super(defaultFilterProcessesUrl);
+    private ObjectMapper objectMapper = new ObjectMapper();
+
+    public AjaxLoginProcessingFilter(String defaultProcessUrl, AuthenticationSuccessHandler successHandler,
+                                     AuthenticationFailureHandler failureHandler) {
+        super(defaultProcessUrl);
         this.successHandler = successHandler;
         this.failureHandler = failureHandler;
-        this.objectMapper = mapper;
     }
 
     @Override
-    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, IOException, ServletException {
-        if (!HttpMethod.POST.name().equals(request.getMethod()) || !WebUtil.isAjax(request)) {
+    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
+            throws AuthenticationException, IOException, ServletException {
+        String method = request.getMethod();
+        boolean ajax = WebUtil.isAjax(request);
+        if (!HttpMethod.POST.name().equalsIgnoreCase(method) || !ajax) {
             if (logger.isDebugEnabled()) {
                 logger.debug("Authentication method not supported. Request method: " + request.getMethod());
             }
-            throw new ServletException("Authentication method not supported");
+            throw new AuthMethodNotSupportedException("Authentication method not supported");
         }
 
-        LoginRequest loginRequest = objectMapper.readValue(request.getReader(), LoginRequest.class);
+        Enumeration<String> parameterNames = request.getParameterNames();
+        String receive = "";
+        while (parameterNames.hasMoreElements()) {
+            receive = receive + parameterNames.nextElement();
+        }
+        LoginRequest loginRequest = objectMapper.readValue(receive, LoginRequest.class);
 
         if (StringUtils.isBlank(loginRequest.getUserName()) || StringUtils.isBlank(loginRequest.getPassword())) {
-            throw new AuthenticationServiceException("Username or Password not provided");
+            throw new AuthenticationServiceException("找不到用户名或者密码字段");
         }
 
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(loginRequest.getUserName(), loginRequest.getPassword());

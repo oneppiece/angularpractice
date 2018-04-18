@@ -1,7 +1,7 @@
 package com.demo.angularpractice.account.controller;
 
 import com.demo.angularpractice.account.param.UserParam;
-import com.demo.angularpractice.account.service.AccountService;
+import com.demo.angularpractice.auth.components.AccountService;
 import com.demo.angularpractice.middle.AjaxResponseEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

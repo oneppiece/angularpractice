@@ -1,4 +1,4 @@
-package com.demo.angularpractice.account.service.impl;
+package com.demo.angularpractice.auth.components;
 
 import com.demo.angularpractice.account.param.UserParam;
 import org.springframework.beans.factory.annotation.Autowired;

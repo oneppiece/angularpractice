@@ -1,4 +1,4 @@
-package com.demo.angularpractice.account.service.impl;
+package com.demo.angularpractice.auth.components;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;

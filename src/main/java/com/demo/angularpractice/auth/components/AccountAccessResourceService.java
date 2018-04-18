@@ -1,4 +1,4 @@
-package com.demo.angularpractice.account.service.impl;
+package com.demo.angularpractice.auth.components;
 
 import com.demo.angularpractice.entity.Resource;
 import com.demo.angularpractice.repository.UserMapper;
@@ -15,10 +15,12 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 /**
+ * 授权
+ *
  * @author dzy
  */
 @Service
-public class AccountInvocationSecurityMetadataSourceService implements
+public class AccountAccessResourceService implements
         FilterInvocationSecurityMetadataSource {
 
     @Autowired

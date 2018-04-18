@@ -1,4 +1,4 @@
-package com.demo.angularpractice.account.filter;
+package com.demo.angularpractice.auth.ajax;
 
 import lombok.Data;
 

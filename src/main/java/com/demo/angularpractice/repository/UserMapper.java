@@ -111,7 +111,7 @@ public interface UserMapper {
     @Cacheable(key = "'user_'+#userParam.id", unless = "#result == null")
     UserParam selectByUser(@Param("userParam") UserParam userParam);
 
-    @Cacheable(key = "'user_resources_'+#userParam.id", unless = "#result == null")
+    @Cacheable(key = "'user_resources'", unless = "#result == null")
     Set<String> selectResourcesByUser(@Param("userParam") UserParam userParam);
 
     @Cacheable(key = "'user_'+#username", unless = "#result == null")

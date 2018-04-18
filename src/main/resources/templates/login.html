@@ -33,6 +33,8 @@
             </form>
         </div>
     </div>
+
+    <button id="clickMe">点我</button>
 </div>
 </body>
 <!-- jQuery -->
@@ -61,6 +63,19 @@
             // spacing between consecutively stacked growls.
         });
     }
+
+    $("#clickMe").click(function (e) {
+        var postData = {userName: "admin", password: 123456};
+        $.ajax({
+            url: "/app/api/auth/login",
+            type: "post",
+            data: JSON.stringify(postData),
+            success: function (res) {
+                console.log(res);
+            }
+        })
+
+    });
     /*]]>*/
 </script>
 </html>

@@ -36,7 +36,7 @@ public class HandlerLoginSuccess extends SavedRequestAwareAuthenticationSuccessH
 				//有效期两小时
 				.setExpiration(new Date(System.currentTimeMillis() + 60 * 60 * 2 * 1000))
 				//采用什么算法是可以自己选择的，不一定非要采用HS512
-				.signWith(SignatureAlgorithm.HS512, "dzy")
+				.signWith(SignatureAlgorithm.HS512, "dzy".getBytes())
 				.compact();
 
 		response.addHeader("token", "Bearer " + token);

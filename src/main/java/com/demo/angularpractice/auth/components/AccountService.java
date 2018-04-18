@@ -1,10 +1,13 @@
-package com.demo.angularpractice.account.service;
+package com.demo.angularpractice.auth.components;
 
 import com.demo.angularpractice.account.param.ResourceParam;
 import com.demo.angularpractice.account.param.RoleParam;
 import com.demo.angularpractice.account.param.UserParam;
 import com.demo.angularpractice.account.result.ResourceResult;
 import com.demo.angularpractice.account.result.RoleResult;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;
@@ -31,6 +34,7 @@ public interface AccountService extends UserDetailsService {
      * @param user
      * @return
      */
+    @CachePut(value = "user", key = "#user.id")
     UserParam registe(UserParam user);
 
     /**
@@ -39,7 +43,17 @@ public interface AccountService extends UserDetailsService {
      * @param user
      * @return
      */
+    @CacheEvict(value = "user", key = "#user.id")
     UserParam invalidUser(UserParam user);
+
+    /**
+     * 获取用户
+     *
+     * @param id
+     * @return
+     */
+    @Cacheable(value = "user", key = "#id")
+    UserParam getUserById(Integer id);
 
     /**
      * 登陆

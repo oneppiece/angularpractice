@@ -5,9 +5,8 @@ import org.springframework.security.web.savedrequest.SavedRequest;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * 
  * @author vladimir.stankovic
- *
+ * <p>
  * Aug 3, 2016
  */
 public class WebUtil {
@@ -18,7 +17,8 @@ public class WebUtil {
     private static final String CONTENT_TYPE_JSON = "application/json";
 
     public static boolean isAjax(HttpServletRequest request) {
-        return XML_HTTP_REQUEST.equals(request.getHeader(X_REQUESTED_WITH));
+        String header = request.getHeader(X_REQUESTED_WITH);
+        return XML_HTTP_REQUEST.equalsIgnoreCase(header);
     }
 
     public static boolean isAjax(SavedRequest request) {

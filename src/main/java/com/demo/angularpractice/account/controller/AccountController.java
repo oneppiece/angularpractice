@@ -5,7 +5,7 @@ import com.demo.angularpractice.account.param.RoleParam;
 import com.demo.angularpractice.account.param.UserParam;
 import com.demo.angularpractice.account.result.ResourceResult;
 import com.demo.angularpractice.account.result.RoleResult;
-import com.demo.angularpractice.account.service.AccountService;
+import com.demo.angularpractice.auth.components.AccountService;
 import com.demo.angularpractice.middle.AjaxResponseEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
