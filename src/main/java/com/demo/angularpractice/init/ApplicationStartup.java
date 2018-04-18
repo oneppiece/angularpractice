@@ -7,5 +7,6 @@ public class ApplicationStartup implements ApplicationListener<ContextRefreshedE
 
 	@Override
 	public void onApplicationEvent(ContextRefreshedEvent event) {
+
 	}
 }

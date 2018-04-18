@@ -2,9 +2,6 @@ server:
   port: 1234
   servlet:
     context-path: /app
-    session:
-      persistent: true
-      timeout: 6000s
   error:
     whitelabel:
       enabled: false
@@ -86,83 +83,10 @@ spring:
     servlet:
       content-type: text/html
     enabled: true
-#  kafka:
-#    consumer:
-#      auto-offset-reset: latest
-#      group-id: foo
-  cache:
-    type: redis
-    redis:
-      key-prefix: spring_boot_
-      use-key-prefix: true
-      cache-null-values: false
-      time-to-live: 6000s
-  data:
-    redis:
-      repositories:
-        enabled: true
-  redis:
-    database: 0
-    host: localhost
-    jedis:
-      pool:
-        max-active: 20
-        max-idle: 8
-        max-wait: 1000ms
-        min-idle: 1
-    port: 6379
-    timeout: 2000ms
-    password:
-#  session:
-#    redis:
-#      flush-mode: IMMEDIATE
-#      namespace: spring_session
-#      cleanup-cron: 0 * * * * *
-#    store-type: redis
-#  activemq:
-#      user: admin
-#      password: admin
-#      in-memory: false
-#      broker-url: tcp://localhost:61616
-#      close-timeout: 15s
-#      pool:
-#        enabled: false
-#        max-connections: 2
-#        # 请求和连接池满时，抛异常
-#        block-if-full: true
-#        # 抛异常前等待时间
-#        block-if-full-timeout: -1ms
-#        create-connection-on-startup: true
-#        # 连接过期超时
-#        expiry-timeout: 0ms
-#        # 连接空闲超时
-#        idle-timeout: 30s
-#        # 每个连接的有效会话的最大数目
-#        maximum-active-session-per-connection: 100
-#        # 有异常时尝试重新连接
-#        reconnect-on-exception: true
-#        # 在空闲连接清除线程之间运行的时间。当为负数时，没有空闲连接驱逐线程运行
-#        time-between-expiration-check: -1ms
-#
-#      # 等待消息发送响应的时间，0为永远等待
-#      send-timeout: 3s
-#      # 消息回滚之前停止消息传递，启用时，将不会保留顺序
-#      non-blocking-redelivery: false
-#      packages:
-#      # 信任所有的包
-#        trust-all: true
-  mail:
-    default-encoding: utf-8
-    protocol: smtp
-    host: smtp.qq.com
-    password: vippzavknlepbgff
-    port: 587
-    test-connection: true
-    username: 164408623@qq.com
-    properties:
-      mail.smtp.auth: true
-      mail.smtp.starttls.enable: true
-      mail.smtp.starttls.required: true
+  kafka:
+    consumer:
+      auto-offset-reset: latest
+      group-id: foo
 
 mybatis:
   mapper-locations: classpath*:mapper/*.xml
@@ -181,6 +105,7 @@ mybatis:
   configuration-properties:
     logImpl: SLF4J
 
+
 pagehelper:
   helper-dialect: mysql
   reasonable: true
@@ -195,3 +120,6 @@ logging:
 ---
 spring:
   profiles: prod
+
+
+
