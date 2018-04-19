@@ -218,13 +218,20 @@
 			</if>
 		</where>
 	</select>
-	<select id="selectResourcesByUser" resultType="java.lang.String">
-		SELECT r.name
+	<select id="selectResourcesByUser" resultType="com.demo.angularpractice.account.param.ResourceParam">
+		SELECT r.*
 		FROM
 			angular.users u LEFT JOIN angular.user_role ur ON u.id = ur.user_id
 			LEFT JOIN angular.role_resource rr ON ur.role_id = rr.role_id
 			LEFT JOIN angular.resources r ON rr.resource_id = r.id
-		WHERE u.id = #{userParam.id}
+		<where>
+			<if test="userParam.id!=null">
+				u.id = #{userParam.id}
+			</if>
+			<if test="userParam.username!=null">
+				u.username = #{userParam.username}
+			</if>
+		</where>
 	</select>
 	<select id="selectUserRoles" resultType="java.lang.String">
 		SELECT r.name

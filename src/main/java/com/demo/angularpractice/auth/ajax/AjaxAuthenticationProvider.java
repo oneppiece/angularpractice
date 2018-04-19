@@ -35,7 +35,7 @@ public class AjaxAuthenticationProvider implements AuthenticationProvider {
 		String username = (String) authentication.getPrincipal();
 		String password = (String) authentication.getCredentials();
 
-		UserDetails user = userService.loadUserByUsername(username);
+ 		UserDetails user = userService.loadUserByUsername(username);
 
 		if (Objects.isNull(user)) {
 			throw new UsernameNotFoundException("用户: " + username + "不存在!");

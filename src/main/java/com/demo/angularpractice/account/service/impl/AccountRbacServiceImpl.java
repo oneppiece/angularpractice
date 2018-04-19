@@ -1,5 +1,6 @@
 package com.demo.angularpractice.account.service.impl;
 
+import com.demo.angularpractice.account.param.ResourceParam;
 import com.demo.angularpractice.account.param.UserParam;
 import com.demo.angularpractice.account.service.AccountRbacService;
 import com.demo.angularpractice.repository.UserMapper;
@@ -30,9 +31,9 @@ public class AccountRbacServiceImpl implements AccountRbacService {
         boolean hasPermission = false;
         if (principal instanceof UserDetails) {
             UserParam user = (UserParam) principal;
-            Set<String> urls = userMapper.selectResourcesByUser(user);
-            for (String url : urls) {
-                if (antPathMatcher.match(url, requestURI)) {
+            Set<ResourceParam> urls = userMapper.selectResourcesByUser(user);
+            for (ResourceParam url : urls) {
+                if (antPathMatcher.match(url.getUrl(), requestURI)) {
                     hasPermission = true;
                     break;
                 }

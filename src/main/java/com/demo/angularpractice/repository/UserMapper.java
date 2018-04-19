@@ -1,5 +1,6 @@
 package com.demo.angularpractice.repository;
 
+import com.demo.angularpractice.account.param.ResourceParam;
 import com.demo.angularpractice.account.param.UserParam;
 import com.demo.angularpractice.entity.Resource;
 import com.demo.angularpractice.entity.Role;
@@ -112,12 +113,12 @@ public interface UserMapper {
     UserParam selectByUser(@Param("userParam") UserParam userParam);
 
     @Cacheable(key = "'user_resources'", unless = "#result == null")
-    Set<String> selectResourcesByUser(@Param("userParam") UserParam userParam);
+    Set<ResourceParam> selectResourcesByUser(@Param("userParam") UserParam userParam);
 
     @Cacheable(key = "'user_'+#username", unless = "#result == null")
     UserParam selectByUserName(String username);
 
-    @Cacheable(key = "'user_resourcde'+#id", unless = "#result == null")
+    @Cacheable(key = "'user_resources'+#id", unless = "#result == null")
     Set<Resource> selectResourcesByUserId(@Param("userId") Integer id);
 
     List<Resource> selectAllResource();

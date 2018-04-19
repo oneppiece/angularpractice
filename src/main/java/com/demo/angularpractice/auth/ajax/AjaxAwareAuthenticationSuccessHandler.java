@@ -2,8 +2,8 @@ package com.demo.angularpractice.auth.ajax;
 
 import com.demo.angularpractice.account.param.UserParam;
 import com.demo.angularpractice.account.util.JWTUtil;
+import com.demo.angularpractice.middle.AjaxResponseEntity;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.collect.Maps;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.Map;
+import java.util.Date;
 
 /**
  * AjaxAwareAuthenticationSuccessHandler
@@ -44,17 +44,19 @@ public class AjaxAwareAuthenticationSuccessHandler implements AuthenticationSucc
         String username = (String) authentication.getPrincipal();
         UserParam userContext = new UserParam();
         userContext.setUsername(username);
-        String accessToken = jwtUtil.generateToken(userContext);
-        String refreshToken = jwtUtil.refreshToken(accessToken);
-
-        Map<String, String> tokenMap = Maps.newHashMap();
-        tokenMap.put("token", accessToken);
-        tokenMap.put("refreshToken", refreshToken);
+        String token = jwtUtil.generateToken(userContext);
+        AjaxResponseEntity<String> result = new AjaxResponseEntity<>();
+        result.setMsg("登陆成功！");
+        result.setSuccess(Boolean.TRUE);
+        result.setReturnTime(new Date());
+        result.setStatus(200);
+        result.setResponse(token);
 
         response.setStatus(HttpStatus.OK.value());
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        response.setCharacterEncoding("utf-8");
 
-        mapper.writeValue(response.getWriter(), tokenMap);
+        mapper.writeValue(response.getWriter(), result);
 
         clearAuthenticationAttributes(request);
     }
