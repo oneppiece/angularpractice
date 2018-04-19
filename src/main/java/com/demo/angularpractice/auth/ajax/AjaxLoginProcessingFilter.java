@@ -32,116 +32,127 @@ import java.util.Enumeration;
 @Slf4j
 public class AjaxLoginProcessingFilter extends AbstractAuthenticationProcessingFilter {
 
-    private final AuthenticationSuccessHandler successHandler;
-    private final AuthenticationFailureHandler failureHandler;
+	private final AuthenticationSuccessHandler successHandler;
+	private final AuthenticationFailureHandler failureHandler;
 
-    private ObjectMapper objectMapper = new ObjectMapper();
+	private ObjectMapper objectMapper = new ObjectMapper();
 
-    public AjaxLoginProcessingFilter(String defaultProcessUrl, AuthenticationSuccessHandler successHandler,
-                                     AuthenticationFailureHandler failureHandler) {
-        super(defaultProcessUrl);
-        this.successHandler = successHandler;
-        this.failureHandler = failureHandler;
-    }
+	public AjaxLoginProcessingFilter(String defaultProcessUrl, AuthenticationSuccessHandler successHandler,
+	                                 AuthenticationFailureHandler failureHandler) {
+		super(defaultProcessUrl);
+		this.successHandler = successHandler;
+		this.failureHandler = failureHandler;
+	}
 
-    /**
-     * 从请求中获取登陆信息
-     * 有XMLHttpRequest请求头，则是Ajax请求，传输数据通过getAjax()获取
-     * 无XMLHttpRequest请求头，传输数据通过getVal()获取
-     *
-     * @param request
-     * @param response
-     * @return
-     * @throws AuthenticationException
-     * @throws IOException
-     * @throws ServletException
-     */
-    @Override
-    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
-            throws AuthenticationException, IOException, ServletException {
-        request = new BodyReaderHttpServletRequestWrapper(request);
-        boolean ajax = WebUtil.isAjax(request);
-        StringBuffer requestJson = new StringBuffer();
+	/**
+	 * 从请求中获取登陆信息
+	 * 有XMLHttpRequest请求头，则是Ajax请求，传输数据通过getParameterNames()获取
+	 * 无XMLHttpRequest请求头，传输数据通过getRequestPayload()获取
+	 * 此方法仅将post请求中的用户名密码取出并返回一个UsernamePasswordAuthenticationToken对象。对用户名密码的验证将在userDetailService中进行
+	 *
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws AuthenticationException
+	 * @throws IOException
+	 * @throws ServletException
+	 */
+	@Override
+	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
+			throws AuthenticationException, IOException, ServletException {
+		request = new BodyReaderHttpServletRequestWrapper(request);
+		//只处理POST类型
+		if (!HttpMethod.POST.name().equalsIgnoreCase(request.getMethod())) {
+			throw new HttpRequestMethodNotSupportedException(request.getMethod());
+		}
+		//获取用户名，密码
+		StringBuffer requestJson = getUserNameAndPasswordByRequest(request);
 
-        if (!HttpMethod.POST.name().equalsIgnoreCase(request.getMethod())) {
-            throw new HttpRequestMethodNotSupportedException(request.getMethod());
-        }
+		if (StringUtils.isBlank(requestJson)) {
+			throw new AuthenticationServiceException("找不到用户名或者密码");
+		}
+		LoginRequest loginRequest = objectMapper.readValue(requestJson.toString(), LoginRequest.class);
 
-        if (ajax) {
-            Enumeration<String> parameterNames = request.getParameterNames();
-            while (parameterNames.hasMoreElements()) {
-                requestJson = requestJson.append(parameterNames.nextElement());
-            }
-        } else {
-            requestJson = requestJson.append(getRequestPayload(request));
-        }
+		if (StringUtils.isBlank(loginRequest.getUserName()) || StringUtils.isBlank(loginRequest.getPassword())) {
+			throw new AuthenticationServiceException("用户名或密码不能为空");
+		}
 
+		UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(loginRequest.getUserName(), loginRequest.getPassword());
 
-        if (StringUtils.isBlank(requestJson)) {
-            throw new AuthenticationServiceException("找不到用户名或者密码字段");
-        }
-        LoginRequest loginRequest = objectMapper.readValue(requestJson.toString(), LoginRequest.class);
+		return this.getAuthenticationManager().authenticate(token);
+	}
 
-        if (StringUtils.isBlank(loginRequest.getUserName()) || StringUtils.isBlank(loginRequest.getPassword())) {
-            throw new AuthenticationServiceException("用户名或密码不能为空");
-        }
+	/**
+	 * 获取用户名，密码
+	 *
+	 * @param request
+	 * @return
+	 */
+	private StringBuffer getUserNameAndPasswordByRequest(HttpServletRequest request) {
+		StringBuffer requestJson = new StringBuffer();
+		boolean ajax = WebUtil.isAjax(request);
+		if (ajax) {
+			Enumeration<String> parameterNames = request.getParameterNames();
+			while (parameterNames.hasMoreElements()) {
+				requestJson = requestJson.append(parameterNames.nextElement());
+			}
+		} else {
+			requestJson = requestJson.append(getRequestPayload(request));
+		}
+		return requestJson;
+	}
 
-        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(loginRequest.getUserName(), loginRequest.getPassword());
+	/**
+	 * 用户名密码验证成功后执行 successHandler
+	 *
+	 * @param request
+	 * @param response
+	 * @param chain
+	 * @param authResult
+	 * @throws IOException
+	 * @throws ServletException
+	 */
+	@Override
+	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
+	                                        Authentication authResult) throws IOException, ServletException {
+		successHandler.onAuthenticationSuccess(request, response, authResult);
+	}
 
-        return this.getAuthenticationManager().authenticate(token);
-    }
+	/**
+	 * 验证失败执行 failureHandler
+	 *
+	 * @param request
+	 * @param response
+	 * @param failed
+	 * @throws IOException
+	 * @throws ServletException
+	 */
+	@Override
+	protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response,
+	                                          AuthenticationException failed) throws IOException, ServletException {
+		SecurityContextHolder.clearContext();
+		failureHandler.onAuthenticationFailure(request, response, failed);
+	}
 
-    /**
-     * 用户名密码验证成功后执行 successHandler
-     *
-     * @param request
-     * @param response
-     * @param chain
-     * @param authResult
-     * @throws IOException
-     * @throws ServletException
-     */
-    @Override
-    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
-                                            Authentication authResult) throws IOException, ServletException {
-        successHandler.onAuthenticationSuccess(request, response, authResult);
-    }
-
-    /**
-     * 验证失败执行 failureHandler
-     *
-     * @param request
-     * @param response
-     * @param failed
-     * @throws IOException
-     * @throws ServletException
-     */
-    @Override
-    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response,
-                                              AuthenticationException failed) throws IOException, ServletException {
-        SecurityContextHolder.clearContext();
-        failureHandler.onAuthenticationFailure(request, response, failed);
-    }
-
-    /**
-     * 通过getReader()读取登陆信息
-     * 解决getReader()只能读取一次流异常
-     *
-     * @param req
-     * @return
-     */
-    private String getRequestPayload(HttpServletRequest req) {
-        StringBuilder sb = new StringBuilder();
-        try {
-            BufferedReader reader = req.getReader();
-            String line;
-            while ((line = reader.readLine()) != null) {
-                sb.append(line);
-            }
-            reader.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return sb.toString();
-    }
+	/**
+	 * 通过getReader()读取登陆信息
+	 * 通过包装request解决getReader()只能读取一次流的异常
+	 *
+	 * @param req
+	 * @return
+	 */
+	private String getRequestPayload(HttpServletRequest req) {
+		StringBuilder sb = new StringBuilder();
+		try {
+			BufferedReader reader = req.getReader();
+			String line;
+			while ((line = reader.readLine()) != null) {
+				sb.append(line);
+			}
+			reader.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return sb.toString();
+	}
 }

@@ -169,4 +169,16 @@ public class AccountServiceImpl implements AccountService {
 	public List<ResourceResult> getResourcesByCondition(ResourceParam resourceParam) {
 		return null;
 	}
+
+	/**
+	 * 根据URI获取角色
+	 *
+	 * @param uri
+	 * @return
+	 */
+	@Override
+	public Set<String> getRoleByUrl(String uri) {
+		Set<String> roles = userMapper.getRoleByUri(uri);
+		return roles;
+	}
 }

@@ -1,4 +1,4 @@
-package com.demo.angularpractice.auth.components;
+package com.demo.angularpractice.auth.jwt;
 
 import com.demo.angularpractice.middle.AjaxResponseEntity;
 import com.fasterxml.jackson.databind.ObjectMapper;
