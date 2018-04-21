@@ -8,23 +8,6 @@ server:
   error:
     whitelabel:
       enabled: false
-auth:
-  endpoint:
-    ignore: /login,/static/**,/
-    form:
-      login: /login
-      login-process: /doLogin
-      login-username-field: userName
-      login-password-field: password
-      logout: /logout
-    authorization:
-      auth: /api/auth/login
-      token: /api/auth/token
-    header:
-      authorization: Authorization
-      token: token
-    api-url:
-      root: /api/**
 ---
 spring:
   profiles: dev
