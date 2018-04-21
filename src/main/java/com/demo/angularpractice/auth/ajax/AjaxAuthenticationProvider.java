@@ -23,37 +23,37 @@ import java.util.Objects;
  */
 @Component
 public class AjaxAuthenticationProvider implements AuthenticationProvider {
-	@Autowired
-	private AccountPasswordEncoder encoder;
-	@Autowired
-	private AccountService userService;
+    @Autowired
+    private AccountPasswordEncoder encoder;
+    @Autowired
+    private AccountService userService;
 
-	@Override
-	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-		Assert.notNull(authentication, "找不到授权信息!");
+    @Override
+    public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+        Assert.notNull(authentication, "找不到授权信息!");
 
-		String username = (String) authentication.getPrincipal();
-		String password = (String) authentication.getCredentials();
+        String username = (String) authentication.getPrincipal();
+        String password = (String) authentication.getCredentials();
 
- 		UserDetails user = userService.loadUserByUsername(username);
+        UserDetails user = userService.loadUserByUsername(username);
 
-		if (Objects.isNull(user)) {
-			throw new UsernameNotFoundException("用户: " + username + "不存在!");
-		}
+        if (Objects.isNull(user)) {
+            throw new UsernameNotFoundException("用户: " + username + "不存在!");
+        }
 
-		if (!encoder.matches(password, user.getPassword())) {
-			throw new BadCredentialsException("密码不匹配!");
-		}
+        if (!encoder.matches(password, user.getPassword())) {
+            throw new BadCredentialsException("密码不匹配!");
+        }
 
-		if (user.getAuthorities() == null)
-			throw new InsufficientAuthenticationException("用户没有任何权限!");
+        if (user.getAuthorities() == null)
+            throw new InsufficientAuthenticationException("用户没有任何权限!");
 
-		return new UsernamePasswordAuthenticationToken(username, user.getPassword(), user.getAuthorities());
-	}
+        return new UsernamePasswordAuthenticationToken(username, user.getPassword(), user.getAuthorities());
+    }
 
 
-	@Override
-	public boolean supports(Class<?> authentication) {
-		return true;
-	}
+    @Override
+    public boolean supports(Class<?> authentication) {
+        return true;
+    }
 }

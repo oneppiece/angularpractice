@@ -20,7 +20,7 @@ import java.util.Date;
  * Aug 3, 2016
  */
 @Component("ajaxFailureHandler")
-public class AjaxAwareAuthenticationFailureHandler implements AuthenticationFailureHandler {
+public class AjaxAuthenticationFailureHandler implements AuthenticationFailureHandler {
     private final ObjectMapper mapper = new ObjectMapper();
 
     @Override

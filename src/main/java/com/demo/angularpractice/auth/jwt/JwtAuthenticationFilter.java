@@ -56,14 +56,10 @@ public class JwtAuthenticationFilter extends AbstractAuthenticationProcessingFil
 		} else {
 			Claims claims = jwtUtil.getClaimsFromToken(token);
 			boolean isValidate = jwtUtil.validateToken(token);
-//			boolean isAuth = validateAuthentication(claims, requestURI);
 			if (!isValidate) {
 				throw new CredentialsExpiredException("token不可用");
 			}
 			Set<SimpleGrantedAuthority> rols = getAuthentication(claims);
-//			if (!isAuth) {
-//				throw new AuthenticationServiceException("无权访问");
-//			}
 			return new UsernamePasswordAuthenticationToken(claims.getSubject(), null, rols);
 		}
 

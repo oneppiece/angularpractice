@@ -20,21 +20,21 @@ import java.io.IOException;
 import java.util.Date;
 
 /**
- * AjaxAwareAuthenticationSuccessHandler
+ * AjaxAuthenticationSuccessHandler
  *
  * @author vladimir.stankovic
  * <p>
  * Aug 3, 2016
  */
 @Component("ajaxSuccessHandler")
-public class AjaxAwareAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
+public class AjaxAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
     private final ObjectMapper mapper = new ObjectMapper();
 
     @Autowired
     private JWTUtil jwtUtil;
 
-    public AjaxAwareAuthenticationSuccessHandler() {
+    public AjaxAuthenticationSuccessHandler() {
     }
 
     @Override

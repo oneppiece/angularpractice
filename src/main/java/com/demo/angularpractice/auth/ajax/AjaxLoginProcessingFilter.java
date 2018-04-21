@@ -2,6 +2,7 @@ package com.demo.angularpractice.auth.ajax;
 
 import com.demo.angularpractice.account.util.WebUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpMethod;
@@ -25,7 +26,7 @@ import java.util.Enumeration;
 
 /**
  * ajax登陆获取登陆信息,配置成功和失败执行的方法
- * 登陆通过则返回token和refreshToken，客户端每次请求在请求头添加token信息
+ * 登陆通过则返回token，客户端每次请求在请求头添加token信息
  *
  * @author dzy
  */
@@ -77,7 +78,7 @@ public class AjaxLoginProcessingFilter extends AbstractAuthenticationProcessingF
 			throw new AuthenticationServiceException("用户名或密码不能为空");
 		}
 
-		UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(loginRequest.getUserName(), loginRequest.getPassword());
+		UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(loginRequest.getUserName(), loginRequest.getPassword(), Lists.newArrayList());
 
 		return this.getAuthenticationManager().authenticate(token);
 	}
