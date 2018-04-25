@@ -8,7 +8,6 @@ server:
   error:
     whitelabel:
       enabled: false
-    path: /error
 ---
 spring:
   profiles: dev
