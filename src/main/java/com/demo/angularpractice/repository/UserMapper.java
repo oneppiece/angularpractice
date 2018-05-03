@@ -129,7 +129,7 @@ public interface UserMapper {
 
     List<Resource> selectResourcesByRole(@Param("role") Role param);
 
-	Set<String> getRoleByUri(@Param("uri") String uri);
+    Set<String> getRoleByUri(@Param("uri") String uri);
 
     Set<Role> selectRolesByUser(@Param("userParam") UserParam userParam);
 }
